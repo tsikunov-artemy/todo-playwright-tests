@@ -85,8 +85,9 @@ Workflow запускается:
 4. Установка браузера для Playwright (`npx playwright install --with-deps chromium`).
 5. Установка `allurectl`.
 6. Запуск тестов через `allurectl --insecure watch --silent -- npx playwright test`:
-   - `watch` стримит результаты в Allure TestOps в реальном времени;
-   - `--silent` не роняет пайплайн, если TestOps недоступен;
-   - `--insecure` отключает проверку TLS-сертификата для подключения к TestOps.
+  - `watch` стримит результаты в Allure TestOps в реальном времени;
+  - `--silent` не роняет пайплайн, если TestOps недоступен;
+  - `--insecure` отключает проверку TLS-сертификата для подключения к TestOps.
 7. Генерация single-file отчета Allure (`allure-report/index.html`) выполняется только для `workflow_dispatch`, если включен чекбокс `BUILD_ALLURE_REPORT`.
 8. Upload артефакта `allure-report` выполняется в том же условии.
+
