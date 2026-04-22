@@ -1,0 +1,19 @@
+---
+description: Fetch testcase code from TestOps tools
+alwaysApply: true
+---
+
+# Testcase Code Retrieval Rule
+
+When the user asks for "код тест-кейса", "expand code", or equivalent:
+
+- Prefer TestOps MCP tools over local files.
+- First read the relevant tool schema from MCP descriptors before calling any MCP tool.
+- Use `testops_find_testcases` with:
+  - `aql: "id = <testcaseId>"`
+  - `expand: ["code"]`
+  - `lang: "ts"`
+  - `framework: "playwright"`
+- Use default `projectId` from global TestOps rules (`3`) unless user provides another `projectId`.
+- Return the code from TestOps as the primary source and explicitly mention it came from TestOps expand code.
+- Use local repository code only as fallback/context when TestOps has no matching testcase.

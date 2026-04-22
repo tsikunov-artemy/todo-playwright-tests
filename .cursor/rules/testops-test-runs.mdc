@@ -1,0 +1,24 @@
+---
+description: Test run policy for local and TestOps execution
+alwaysApply: true
+---
+
+# Test Runs via Local and TestOps
+
+When user asks to run tests:
+
+- Always offer two execution modes: local run or TestOps run (CI-integrated).
+- If user did not explicitly choose mode, ask where to run first (`local` or `testops`) before starting execution.
+
+When user chooses `testops`:
+
+- Use `testops_run_testcases` and pass test cases by IDs via `testCaseIds`.
+- Support explicit запуск по ID (single or multiple IDs), for example: `[14]` or `[13, 14, 21]`.
+- For `projectId`, use TestOps defaults rule unless user overrides it.
+- Always pass branch via `jobsParams` with fixed parameter name `Branch`.
+- If user explicitly specifies a branch value, use that value for `Branch`.
+- If user does not specify a branch value, read current git branch from `git branch --show-current` and use it as `Branch` value.
+
+When user chooses `local`:
+
+- Run tests from repository locally with Playwright commands and report concise results.

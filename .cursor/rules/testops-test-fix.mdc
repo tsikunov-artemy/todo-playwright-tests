@@ -1,0 +1,36 @@
+---
+description: Fix failed TestOps tests with artifact export, commit, and rerun
+globs: tests/**/*.spec.ts
+alwaysApply: false
+---
+
+# TestOps Test Fix Flow
+
+When user asks to fix failed TestOps autotests:
+
+- Start from launches, not from testcase IDs.
+- Fetch recent launches and show them in exact format: `#<id> - <name>`.
+- Ask user to choose a launch to fix.
+- In selected launch, list only test results with `failed` or `broken` status.
+- Process failing results one by one.
+
+Before making fixes:
+
+- Check current git branch.
+- Fix flow must run on branch with prefix `fix/`.
+- If current branch is `main` or does not start with `fix/`, stop and ask to switch to `fix/*` branch.
+- Offer both options: user switches branch manually, or agent creates/switches branch with `fix/` prefix.
+- Do not continue fixing on `main`.
+
+For each selected failed/broken result:
+
+- Export artifacts before editing code.
+- Store artifacts in `.tmp/launch-<launchId>/result-<testResultId>/`.
+- Save at least: `testresult.json`, `scenario.json`/`scenario.txt`, decoded attachments.
+- Keep TestOps metadata stable (`@allure.id` remains in test title).
+- Fix selectors/waits/assertions based on scenario and attachments evidence.
+- Validate fix by running targeted Playwright spec locally.
+- Create a git commit with fix changes.
+- Run testcase in TestOps on current branch with `jobsParams` `Branch`.
+- Wait for completion and report launch id + final status (`passed`/`failed`/`broken`).
+- Continue with next failed/broken result from the same launch.

@@ -1,0 +1,48 @@
+---
+description: Create new Playwright autotest from manual TestOps testcase
+globs: tests/**/*.spec.ts
+alwaysApply: false
+---
+
+# TestOps Manual-to-Autotest Flow
+
+Mandatory process for each new autotest (required):
+
+- Always work in a branch with prefix `create/`.
+- Always create a git commit with test changes.
+- Always run the new test locally and confirm it passes.
+- If any of these three steps is skipped, the task is not considered done.
+
+When user asks to create a new autotest from a manual TestOps testcase:
+
+- First fetch testcase list with `expand: ["status"]` and identify current status taxonomy used in project.
+- Do not rely on workflow names because workflow taxonomy can differ across projects.
+- Use `automated = false` as the only required baseline filter for manual-to-autotest candidate selection.
+- Determine automation-ready statuses dynamically from current project statuses.
+- Consider status names as automation-ready when they clearly indicate preparation for automation, for example:
+  - `To Automate`, `For Automation`, `Automation Candidate`, `Ready for Automation`
+  - Russian equivalents like `На автоматизацию`, `К автоматизации`, `Для автоматизации`, `Готов к автоматизации`
+- If several status variants match, show all matching statuses and ask user which one to use for this run.
+- If no status name clearly maps to automation intent, always show available statuses and ask user to choose automation-ready status explicitly.
+- Build candidate list only from testcases that match selected automation-ready status + `automated = false`.
+- Ask user which testcase to start with.
+- Create only one testcase per branch: do not implement multiple new testcases in the same `create/*` branch.
+- If user wants several testcases, process them sequentially, each in its own separate `create/*` branch.
+- For selected testcase, request `expand: ["code"]` to get step structure.
+- Implement Playwright test code based on testcase steps.
+- Keep metadata aligned with TestOps: `@allure.id` in test title, feature/story labels.
+- Run new test locally and confirm it passes (mandatory).
+
+Before commit:
+
+- Check current git branch.
+- Create flow must run on branch with prefix `create/`.
+- If current branch is `main` or does not start with `create/`, create/switch to `create/*` working branch first.
+
+Delivery steps:
+
+- Create a git commit with new test changes (mandatory).
+- Push current branch to remote (`git push -u origin HEAD` on first push) before TestOps run.
+- Run testcase in TestOps on current branch.
+- Pass branch via `jobsParams` with fixed parameter name `Branch`.
+- Wait for completion and report final status.

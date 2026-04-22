@@ -1,0 +1,26 @@
+---
+description: Sync Playwright test metadata with TestOps
+globs: tests/**/*.spec.ts
+alwaysApply: false
+---
+
+# TestOps Metadata Sync
+
+When updating Playwright autotests, keep metadata aligned with TestOps.
+
+- Test name format: `<Readable test name> @allure.id:<number>`.
+- `@allure.id` must be at the end of the test name.
+- Keep only one `@allure.id` marker per test.
+- If TestOps ID changes, update only the numeric part and keep readable title stable.
+- If TestOps case does not exist yet, keep readable title without fake IDs.
+
+Use Allure labels in each autotest:
+
+- `allure.label("feature", "<Feature>")`
+- `allure.label("story", "<Story>")`
+
+Examples:
+
+- Good: `test("Создание новой задачи @allure.id:19", async () => {})`
+- Bad: `test("@allure.id:19 Создание новой задачи", async () => {})`
+- Bad: `test("Создание новой задачи @allure.id:19 @allure.id:20", async () => {})`
