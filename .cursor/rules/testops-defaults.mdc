@@ -7,8 +7,8 @@ alwaysApply: true
 
 Use these defaults for all MCP calls to `user-testops-testing`:
 
-- Default `baseUrl` is `http://103.76.53.93:8080`.
-- Default `projectId` is `3`.
+- Default `baseUrl` is `https://rnd.qatools.cloud/`.
+- Default `projectId` is `1975`.
 - If a TestOps MCP tool has a required `projectId` argument and the user did not provide one, pass `projectId: 3`.
 - Do not probe random project IDs to discover the project.
 - If the user explicitly provides another project ID for a request, use the user-provided value for that request.
