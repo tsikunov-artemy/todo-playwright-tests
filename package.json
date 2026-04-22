@@ -1,0 +1,31 @@
+{
+  "name": "playwright-tests",
+  "version": "1.0.0",
+  "description": "Playwright TypeScript E2E tests for external application",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "pw:install": "playwright install",
+    "allure:generate": "rm -rf allure-report && allure awesome ./allure-results --output allure-report --single-file --group-by feature,story",
+    "allure:open": "allure open allure-report",
+    "allure:serve": "allure open ./allure-results"
+  },
+  "keywords": [
+    "playwright",
+    "typescript",
+    "e2e"
+  ],
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^25.6.0",
+    "allure": "^3.6.1",
+    "allure-playwright": "^3.7.1",
+    "dotenv": "^17.4.2",
+    "typescript": "^6.0.3"
+  }
+}

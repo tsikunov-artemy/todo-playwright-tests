@@ -1,0 +1,88 @@
+name: test
+
+on:
+  workflow_dispatch:
+    inputs:
+      ALLURE_JOB_RUN_ID:
+        description: "ALLURE_JOB_RUN_ID service parameter. Leave blank."
+        required: false
+        type: string
+      ALLURE_USERNAME:
+        description: "ALLURE_USERNAME service parameter. Leave blank."
+        required: false
+        type: string
+      ALLURE_REPORT_BUILD:
+        description: "Build and upload Allure HTML report artifact"
+        default: false
+        type: boolean
+  push:
+    branches:
+      - main
+      - create/*
+
+permissions:
+  actions: write
+  contents: read
+
+env:
+  BASE_URL: https://demo.playwright.dev/todomvc
+  ALLURE_JOB_RUN_ID: ${{ github.event.inputs.ALLURE_JOB_RUN_ID || '' }}
+  ALLURE_USERNAME: ${{ github.event.inputs.ALLURE_USERNAME || '' }}
+  ALLURE_RESULTS: allure-results
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-
+
+      - name: Install Playwright browser (cache miss)
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
+
+      - name: Install Playwright system dependencies (cache hit)
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
+
+      - name: Setup allurectl
+        uses: allure-framework/setup-allurectl@v1
+        with:
+          allure-endpoint: ${{ secrets.ALLURE_ENDPOINT }}
+          allure-token: ${{ secrets.ALLURE_TOKEN }}
+          allure-project-id: ${{ secrets.ALLURE_PROJECT_ID }}
+
+      - name: Run tests with allurectl
+        run: allurectl --insecure watch --silent -- npx playwright test
+
+      - name: Generate Allure report
+        if: ${{ always() && github.event_name == 'workflow_dispatch' && inputs.ALLURE_REPORT_BUILD }}
+        run: rm -rf allure-report && npx allure awesome ./allure-results --output allure-report --single-file
+
+      - name: Upload Allure report
+        if: ${{ always() && github.event_name == 'workflow_dispatch' && inputs.ALLURE_REPORT_BUILD }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report
+          if-no-files-found: ignore
