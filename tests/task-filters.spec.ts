@@ -3,7 +3,7 @@ import * as allure from "allure-js-commons";
 
 const TODO_URL = "https://demo.playwright.dev/todomvc";
 
-test("Фильтр Active показывает только активные", async ({ page }) => {
+test("Фильтр Active показывает только активные @allure.id:75213", async ({ page }) => {
   const activeTodo = `active filter ${Date.now()} ${Math.floor(Math.random() * 1000)}`;
   const completedTodo = `completed filter ${Date.now()} ${Math.floor(Math.random() * 1000)}`;
 
@@ -43,7 +43,7 @@ test("Фильтр Active показывает только активные", a
   });
 });
 
-test("Фильтр Completed показывает только завершенные", async ({ page }) => {
+test("Фильтр Completed показывает только завершенные @allure.id:75215", async ({ page }) => {
   const activeTodo = `active completed filter ${Date.now()} ${Math.floor(Math.random() * 1000)}`;
   const completedTodo = `completed completed filter ${Date.now()} ${Math.floor(Math.random() * 1000)}`;
 

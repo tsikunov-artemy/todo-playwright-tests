@@ -3,7 +3,7 @@ import * as allure from "allure-js-commons";
 
 const TODO_URL = "https://demo.playwright.dev/todomvc";
 
-test("Перевод активной задачи в completed", async ({ page }) => {
+test("Перевод активной задачи в completed @allure.id:75218", async ({ page }) => {
   const todoText = `active todo ${Date.now()} ${Math.floor(Math.random() * 1000)}`;
 
   await allure.label("feature", "Статусы задач");
@@ -34,7 +34,7 @@ test("Перевод активной задачи в completed", async ({ page 
   });
 });
 
-test("Возврат completed-задачи в active", async ({ page }) => {
+test("Возврат completed-задачи в active @allure.id:75220", async ({ page }) => {
   const todoText = `completed todo ${Date.now()} ${Math.floor(Math.random() * 1000)}`;
 
   await allure.label("feature", "Статусы задач");
@@ -65,7 +65,7 @@ test("Возврат completed-задачи в active", async ({ page }) => {
   });
 });
 
-test("Счетчик items left показывает число активных задач", async ({ page }) => {
+test("Счетчик items left показывает число активных задач @allure.id:75219", async ({ page }) => {
   const firstTodo = `first active ${Date.now()} ${Math.floor(Math.random() * 1000)}`;
   const secondTodo = `second completed ${Date.now()} ${Math.floor(Math.random() * 1000)}`;
 

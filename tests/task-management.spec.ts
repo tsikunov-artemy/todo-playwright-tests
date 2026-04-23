@@ -3,7 +3,7 @@ import * as allure from "allure-js-commons";
 
 const TODO_URL = "https://demo.playwright.dev/todomvc";
 
-test("Создание новой задачи", async ({ page }) => {
+test("Создание новой задачи @allure.id:75216", async ({ page }) => {
   const todoText = `new todo ${Date.now()} ${Math.floor(Math.random() * 1000)}`;
 
   await allure.label("feature", "Управление задачами");
@@ -30,7 +30,7 @@ test("Создание новой задачи", async ({ page }) => {
   });
 });
 
-test("Пустая задача не создается", async ({ page }) => {
+test("Пустая задача не создается @allure.id:75217", async ({ page }) => {
   await allure.label("feature", "Управление задачами");
   await allure.label("story", "Валидация ввода при создании");
 
