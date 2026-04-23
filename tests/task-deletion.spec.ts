@@ -6,7 +6,7 @@ const TODO_URL = "https://demo.playwright.dev/todomvc";
 test("Удаление задачи через hover и кнопку destroy", async ({ page }) => {
   const todoText = `todo to delete ${Date.now()} ${Math.floor(Math.random() * 1000)}`;
 
-  await allure.label("feature", "Удаление задач");
+  await allure.label("feature", "Удаление задач!");
   await allure.label("story", "Удаление отдельной задачи");
 
   await allure.step("Открываем главную страницу приложения", async () => {
