@@ -8,7 +8,7 @@ alwaysApply: false
 
 Mandatory process for each new autotest (required):
 
-- Always work in a branch with prefix `create/`.
+- Always work in branch `main`.
 - Always create a git commit with test changes.
 - Always run the new test locally and confirm it passes.
 - If any of these three steps is skipped, the task is not considered done.
@@ -26,8 +26,7 @@ When user asks to create a new autotest from a manual TestOps testcase:
 - If no status name clearly maps to automation intent, always show available statuses and ask user to choose automation-ready status explicitly.
 - Build candidate list only from testcases that match selected automation-ready status + `automated = false`.
 - Ask user which testcase to start with.
-- Create only one testcase per branch: do not implement multiple new testcases in the same `create/*` branch.
-- If user wants several testcases, process them sequentially, each in its own separate `create/*` branch.
+- Multiple testcases can be implemented sequentially in `main` when requested.
 - For selected testcase, request `expand: ["code"]` to get step structure.
 - Implement Playwright test code based on testcase steps.
 - Keep metadata aligned with TestOps: `@allure.id` in test title, feature/story labels.
@@ -36,8 +35,8 @@ When user asks to create a new autotest from a manual TestOps testcase:
 Before commit:
 
 - Check current git branch.
-- Create flow must run on branch with prefix `create/`.
-- If current branch is `main` or does not start with `create/`, create/switch to `create/*` working branch first.
+- Create flow must run on branch `main`.
+- If current branch is not `main`, stop and ask user to switch to `main` first.
 
 Delivery steps:
 
