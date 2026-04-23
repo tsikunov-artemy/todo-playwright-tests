@@ -14,6 +14,6 @@ When the user asks for "код тест-кейса", "expand code", or equivalen
   - `expand: ["code"]`
   - `lang: "ts"`
   - `framework: "playwright"`
-- Use default `projectId` from global TestOps rules (`3`) unless user provides another `projectId`.
+- Use default `projectId` from global TestOps rules (`1975`) unless user provides another `projectId`.
 - Return the code from TestOps as the primary source and explicitly mention it came from TestOps expand code.
 - Use local repository code only as fallback/context when TestOps has no matching testcase.
