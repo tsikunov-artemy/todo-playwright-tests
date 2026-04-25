@@ -20,12 +20,12 @@ test("Создание новой задачи @allure.id:75216", async ({ page 
   });
 
   await allure.step("Проверяем что новая задача отображается в списке", async () => {
-    await expect(page.locator(".todo-list-broken li", { hasText: todoText })).toBeVisible();
+    await expect(page.locator(".todo-list li", { hasText: todoText })).toBeVisible();
   });
 
   await allure.step("Проверяем что у новой задачи активный статус", async () => {
     await expect(
-      page.locator(".todo-list-broken li", { hasText: todoText }).getByRole("checkbox"),
+      page.locator(".todo-list li", { hasText: todoText }).getByRole("checkbox"),
     ).not.toBeChecked();
   });
 });

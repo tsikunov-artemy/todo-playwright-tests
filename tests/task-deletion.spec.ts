@@ -20,11 +20,11 @@ test("Удаление задачи через hover и кнопку destroy @al
   });
 
   await allure.step("Наводим курсор на строку задачи", async () => {
-    await page.locator(".todo-list-broken li", { hasText: todoText }).hover();
+    await page.locator(".todo-list li", { hasText: todoText }).hover();
   });
 
   await allure.step("Нажимаем кнопку destroy", async () => {
-    await page.locator(".todo-list-broken li", { hasText: todoText }).locator(".destroy").click();
+    await page.locator(".todo-list li", { hasText: todoText }).locator(".destroy").click();
   });
 
   await allure.step("Проверяем что выбранная задача удалена из списка", async () => {
