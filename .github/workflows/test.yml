@@ -18,6 +18,7 @@ on:
   push:
     branches:
       - main
+      - "fix/**"
 
 permissions:
   actions: write
@@ -63,6 +64,10 @@ jobs:
       - name: Install Playwright system dependencies (cache hit)
         if: steps.playwright-cache.outputs.cache-hit == 'true'
         run: npx playwright install-deps chromium
+
+      # install-deps only installs OS libraries; always align browser binaries with @playwright/test
+      - name: Ensure Playwright browser binaries
+        run: npx playwright install chromium
 
       - name: Setup allurectl
         uses: allure-framework/setup-allurectl@v1
